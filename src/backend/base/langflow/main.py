@@ -24,6 +24,8 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 
 from langflow.api import health_check_router, log_router, router
 from langflow.api.v1.mcp_projects import init_mcp_servers
+from langflow.api.v2.chat import router as chat_router
+from langflow.api.v2.widget import router as widget_router
 from langflow.initial_setup.setup import (
     create_or_update_starter_projects,
     initialize_super_user_if_needed,
@@ -301,6 +303,8 @@ def create_app():
     app.include_router(router)
     app.include_router(health_check_router)
     app.include_router(log_router)
+    app.include_router(chat_router, prefix="/api/v2")
+    app.include_router(widget_router)
 
     @app.exception_handler(Exception)
     async def exception_handler(_request: Request, exc: Exception):
@@ -348,6 +352,13 @@ def setup_static_files(app: FastAPI, static_files_dir: Path) -> None:
         "/",
         StaticFiles(directory=static_files_dir, html=True),
         name="static",
+    )
+    
+    widget_dir = Path(__file__).parent / "api" / "v2" / "static"
+    app.mount(
+        "/widget",
+        StaticFiles(directory=widget_dir, html=True),
+        name="widget",
     )
 
     @app.exception_handler(404)

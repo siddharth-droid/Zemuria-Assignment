@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { LoadingPage } from "./pages/LoadingPage";
 import router from "./routes";
 import { useDarkStore } from "./stores/darkStore";
+import ChatWidget from "./components/ChatWidget/ChatWidget";
 
 export default function App() {
   const dark = useDarkStore((state) => state.dark);
@@ -17,6 +18,7 @@ export default function App() {
   return (
     <Suspense fallback={<LoadingPage />}>
       <RouterProvider router={router} />
+      <ChatWidget />
     </Suspense>
   );
 }

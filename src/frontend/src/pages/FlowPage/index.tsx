@@ -14,6 +14,7 @@ import useFlowStore from "../../stores/flowStore";
 import useFlowsManagerStore from "../../stores/flowsManagerStore";
 import Page from "./components/PageComponent";
 import { FlowSidebarComponent } from "./components/flowSidebarComponent";
+import ChatWidget from "@/components/ChatWidget/ChatWidget";
 
 export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
   const types = useTypesStore((state) => state.types);
@@ -171,6 +172,7 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
           </div>
         )}
       </div>
+      <ChatWidget />
       {blocker.state === "blocked" && (
         <>
           {!isBuilding && currentSavedFlow && (
